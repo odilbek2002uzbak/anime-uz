@@ -1,7 +1,8 @@
 FROM php:8.2-apache
 
 RUN docker-php-ext-install mysqli \
- && a2enmod headers \
+ && (a2dismod mpm_event mpm_worker 2>/dev/null || true) \
+ && a2enmod mpm_prefork headers \
  && printf 'upload_max_filesize=50M\npost_max_size=50M\nmemory_limit=256M\n' > /usr/local/etc/php/conf.d/app.ini
 
 COPY docker/app.conf /etc/apache2/conf-available/app.conf
