@@ -1,5 +1,9 @@
 #!/bin/bash
 set -e
+
+# Apache: faqat bitta MPM (prefork) yoqilgan bo'lsin
+rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.*
+[ -e /etc/apache2/mods-enabled/mpm_prefork.load ] || a2enmod mpm_prefork >/dev/null 2>&1 || true
 APP=/var/www/html
 DATA_DIR="${DATA_DIR:-/data}"
 PORT="${PORT:-80}"
